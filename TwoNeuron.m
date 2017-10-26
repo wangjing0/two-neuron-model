@@ -1,4 +1,4 @@
-%% Two inhibitory neurons with various level of common inputs
+%% Two inhibitory neurons with various level of common input
 % for generating the nueral trajectories, speed and energy profiles, as shown in Figure 6c and 6b
 %++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 % by Jing Wang 1/29/2017  jingwang.physics(a)gmail.com
@@ -15,7 +15,7 @@ clc ; clear;  close all
                          
         Ntheta = 4;
          Theta = linspace(.6,.8,Ntheta);
-   Theta_Noise = 0.01;
+   Theta_Noise = 0.001;
      x0_jitter = .05;
              W = 6.0;
 
@@ -82,13 +82,14 @@ for ii=1:Ntheta
             Traj(ii,j,t,:)=[u v];
             [Vx_,~]= findIntersect(linspace(xmin,xmax,1e3),v*ones(1,1e3),y,x);
             [~,Vy_]= findIntersect(u*ones(1,1e3),linspace(xmin,xmax,1e3),x,y);
+ 
+            ksi=randn; % correlated input noise to both u and v
             
-            Vx = - u + Vx_;
-            Vy = - v + Vy_;
+            Vx = - u + Vx_ + Theta_Noise*ksi;
+            Vy = - v + Vy_ + Theta_Noise*ksi;
             
-            ksi=randn.*dt; % correlated input noise to both u and v
-            v = v + Vy.*dt + Theta_Noise*ksi;
-            u = u + Vx.*dt - Theta_Noise*ksi;
+            v = v + Vy.*dt;
+            u = u + Vx.*dt;
             if j==1
                  X(ii,:,t) = [u;v];
                  V(ii,:,t) = [Vx;Vy];
