@@ -4,6 +4,8 @@
 % by Jing Wang 1/29/2017  jingwang.physics(a)gmail.com
 % +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+
 clc ; clear;  close all
 %% PARAMETERS
         Ntrial = 1;
